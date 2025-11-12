@@ -1,0 +1,19 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "This is the repository for battleship game.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anuj-Kumar0/battleship.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anuj-Kumar0/battleship/issues"
+  },
+  "homepage": "https://github.com/Anuj-Kumar0/battleship#readme"
+}
