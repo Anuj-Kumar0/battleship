@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        background: #f4f6fb;
+      }
+
+      h1 {
+        margin-top: 10px;
+      }
+
+      .boards {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(10, 30px);
+        grid-template-rows: repeat(10, 30px);
+        gap: 2px;
+        margin: 20px;
+        background: #cce;
+        padding: 5px;
+        border-radius: 8px;
+      }
+
+      .cell {
+        width: 30px;
+        height: 30px;
+        background: #cce;
+        border: 1px solid #999;
+      }
+
+      .ship-cell {
+        background: #444;
+        border-radius: 3px;
+      }
+
+      .hit { background: red; }
+      .miss { background: lightblue; }
+
+      .controls {
+        margin: 10px;
+      }
+
+      button {
+        padding: 8px 16px;
+        margin: 5px;
+        cursor: pointer;
+      }
+
+      #turn-indicator {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .ship-palette {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .draggable-ship {
+        display: inline-block;
+        background: #444;
+        height: 30px;
+        border-radius: 3px;
+        cursor: grab;
+      }
+
+      .drag-over {
+        outline: 2px dashed #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Battleship</h1>
+
+    <div class="controls">
+      <button id="rotate-btn">Rotate (Horizontal)</button>
+      <button id="random-btn">Random Ship Placement</button>
+      <button id="start-btn" disabled>Start Game</button>
+    </div>
+
+    <h3 id="placement-status">Drag your ships onto the board</h3>
+
+    <div class="ship-palette" id="ship-palette"></div>
+
+    <div class="boards">
+      <div>
+        <h3>Your Board</h3>
+        <div id="player-board" class="board"></div>
+      </div>
+      <div>
+        <h3>Computer Board</h3>
+        <div id="computer-board" class="board"></div>
+      </div>
+    </div>
+
+    <h3 id="turn-indicator"></h3>
+
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>
