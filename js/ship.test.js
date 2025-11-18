@@ -1,5 +1,6 @@
 import ship from "./ship.js";
 import gameBoard from "./gameboard.js";
+import player from "./player.js";
 
 describe("ship factory", () => {
   test("length of the ship", () => {
@@ -62,5 +63,13 @@ describe("gameboard", () => {
     board.receiveAttack([0, 0]);
     board.receiveAttack([0, 1]);
     expect(board.allShipsSunk()).toBe(true);
+  });
+
+  test("player creation", () => {
+    const player1 = player("human");
+    const player2 = player("computer");
+
+    expect(player1.type).toBe("human");
+    expect(player2.type).toBe("computer");
   });
 });
