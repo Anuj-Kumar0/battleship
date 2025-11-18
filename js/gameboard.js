@@ -6,7 +6,7 @@ export default function gameBoard() {
 
   function placeShips(length, coordinates) {
     const newShip = ship(length);
-    ships.push({ ship: newShip, coordinates });
+    ships.push({ ship: newShip, coordinates, hits: [] });
   }
 
   function receiveAttack(coordinate) {
@@ -21,16 +21,18 @@ export default function gameBoard() {
           recordCord[1] === coordinate[1]
         ) {
           singleShip.ship.hit();
+          singleShip.hits.push(coordinate);
           return "hit";
         }
       }
     }
+
     missedShot.push(coordinate);
     return "miss";
   }
 
   function allShipsSunk() {
-    return ships.reduce((acc, curr) => acc && curr.ship.isSunk(), true);
+    return ships.every((s) => s.ship.isSunk());
   }
 
   return {
