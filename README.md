@@ -28,3 +28,5 @@ Custom drag & drop system
 Run the Project
 
 Just open index.html in your browser — no setup needed.
+
+or here's the live preview link - https://anuj-kumar0.github.io/battleship/
