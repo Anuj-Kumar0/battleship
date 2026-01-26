@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Anuj-Kumar0/battleship/issues"
   },
-  "homepage": "https://github.com/Anuj-Kumar0/battleship#readme"
+  "homepage": "https://github.com/Anuj-Kumar0/battleship#readme",
+  "devDependencies": {
+    "jest-environment-jsdom": "^30.2.0"
+  }
 }
