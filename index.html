@@ -5,81 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
     <style>
-      body {
-        font-family: sans-serif;
-        text-align: center;
-        background: #f4f6fb;
-      }
+     :root {
+  --bg: #0f172a;
+  --panel: rgba(255, 255, 255, 0.08);
+  --panel-border: rgba(255, 255, 255, 0.15);
+  --accent: #38bdf8;
+  --accent-soft: #7dd3fc;
+  --hit: #ef4444;
+  --miss: #38bdf8;
+  --ship: #1e293b;
+  --cell: #0b1220;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+}
 
-      h1 {
-        margin-top: 10px;
-      }
+* {
+  box-sizing: border-box;
+}
 
-      .boards {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-      }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #1e293b,
+    var(--bg) 60%
+  );
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-      .board {
-        display: grid;
-        grid-template-columns: repeat(10, 30px);
-        grid-template-rows: repeat(10, 30px);
-        gap: 2px;
-        margin: 20px;
-        background: #cce;
-        padding: 5px;
-        border-radius: 8px;
-      }
 
-      .cell {
-        width: 30px;
-        height: 30px;
-        background: #cce;
-        border: 1px solid #999;
-      }
+h1 {
+  margin: 16px 0 6px;
+  font-size: 2.6rem;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #7dd3fc, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-      .ship-cell {
-        background: #444;
-        border-radius: 3px;
-      }
+h3 {
+  margin: 8px 0;
+  font-weight: 500;
+  color: var(--muted);
+}
 
-      .hit { background: red; }
-      .miss { background: lightblue; }
 
-      .controls {
-        margin: 10px;
-      }
+.controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+}
 
-      button {
-        padding: 8px 16px;
-        margin: 5px;
-        cursor: pointer;
-      }
+#restart-btn {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
 
-      #turn-indicator {
-        font-weight: bold;
-        margin-top: 10px;
-      }
 
-      .ship-palette {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-      }
+button {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 1px solid var(--panel-border);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  backdrop-filter: blur(8px);
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
+}
 
-      .draggable-ship {
-        display: inline-block;
-        background: #444;
-        height: 30px;
-        border-radius: 3px;
-        cursor: grab;
-      }
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
+}
 
-      .drag-over {
-        outline: 2px dashed #000;
-      }
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+#placement-status,
+#turn-indicator {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: var(--accent-soft);
+}
+
+
+.ship-palette {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.draggable-ship {
+  background: linear-gradient(
+    180deg,
+    #334155,
+    #0f172a
+  );
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--panel-border),
+    0 6px 12px rgba(0, 0, 0, 0.4);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.draggable-ship:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 18px rgba(56, 189, 248, 0.35);
+}
+
+.draggable-ship:active {
+  cursor: grabbing;
+}
+
+
+.boards {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 24px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 32px);
+  grid-template-rows: repeat(10, 32px);
+  gap: 4px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+
+.cell {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(
+    180deg,
+    #0b1220,
+    #020617
+  );
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+#computer-board .cell:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 1px var(--accent),
+    0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+
+.ship-cell {
+  background: linear-gradient(
+    180deg,
+    #475569,
+    #1e293b
+  );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+
+.hit {
+  background: radial-gradient(
+    circle,
+    #fecaca,
+    var(--hit)
+  );
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+}
+
+.miss {
+  background: radial-gradient(
+    circle,
+    #bae6fd,
+    var(--miss)
+  );
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+}
+
+
+.drag-over {
+  outline: 2px dashed var(--accent);
+  outline-offset: 3px;
+}
+
     </style>
   </head>
   <body>
@@ -89,6 +220,8 @@
       <button id="rotate-btn">Rotate (Horizontal)</button>
       <button id="random-btn">Random Ship Placement</button>
       <button id="start-btn" disabled>Start Game</button>
+      <button id="restart-btn" hidden>Restart Game</button>
+
     </div>
 
     <h3 id="placement-status">Drag your ships onto the board</h3>
