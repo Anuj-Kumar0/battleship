@@ -217,3 +217,5 @@ restartBtn.addEventListener("click", () => {
   gameStarted = false;
   render.updateBoards(human, computer);
 });
+
+render.updateBoards(human, computer);
