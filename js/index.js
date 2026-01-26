@@ -12,6 +12,7 @@ const SHIP_SIZES = [5, 4, 3, 3, 2]; //Number of ships
 const rotateBtn = document.querySelector("#rotate-btn");
 const randomBtn = document.querySelector("#random-btn");
 const startBtn = document.querySelector("#start-btn");
+const restartBtn = document.querySelector("#restart-btn");
 const placementStatus = document.querySelector("#placement-status");
 const turnIndicator = document.querySelector("#turn-indicator");
 const shipPalette = document.querySelector("#ship-palette");
@@ -183,14 +184,36 @@ function checkWinner() {
   if (computer.board.allShipsSunk()) {
     turnIndicator.textContent = "You Win!";
     gameStarted = false;
+    restartBtn.hidden = false;
     return true;
   }
+
   if (human.board.allShipsSunk()) {
     turnIndicator.textContent = "Computer Wins!";
     gameStarted = false;
+    restartBtn.hidden = false;
     return true;
   }
+
   return false;
 }
 
-render.updateBoards(human, computer);
+restartBtn.addEventListener("click", () => {
+  human.board.ships.length = 0;
+  human.board.missedShot.length = 0;
+  computer.board.ships.length = 0;
+  computer.board.missedShot.length = 0;
+
+  shipPalette.innerHTML = "";
+  createShipPalette();
+  placementStatus.textContent = "Drag your ships onto the board";
+  turnIndicator.textContent = "";
+  restartBtn.hidden = true;
+
+  rotateBtn.disabled = false;
+  randomBtn.disabled = false;
+  startBtn.disabled = true;
+
+  gameStarted = false;
+  render.updateBoards(human, computer);
+});
